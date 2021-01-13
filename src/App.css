@@ -1,0 +1,6 @@
+.navClosed {
+    transform: translateY(-52px);
+}
+.App {
+    transition: all 0.5s;
+}
