@@ -7,10 +7,8 @@ import IconButton from './IconButton';
 
 const NowPlayingWidget = ({ username, removeWidget }) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
-  // const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609', 1000);
   const [isHovering, setIsHovering] = useState(false);
   const timePassed = new Date(new Date() - lastFM?.track?.date);
-  console.log(timePassed.getTime(), timePassed.getHours());
   return (
     <span
       className={
