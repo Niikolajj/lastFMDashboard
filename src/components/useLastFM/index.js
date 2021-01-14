@@ -30,6 +30,7 @@ const useLastFM = (username, token) => {
         const recentSong = {
           title: songs[0].name,
           artist: songs[0].artist['#text'],
+          date: new Date(songs[0].date?.uts * 1000) || null,
         };
         if (isPlaying) {
           dispatch({ type: 'PLAY', payload: recentSong });

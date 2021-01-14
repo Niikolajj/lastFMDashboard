@@ -9,6 +9,8 @@ const NowPlayingWidget = ({ username, removeWidget }) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
   // const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609', 1000);
   const [isHovering, setIsHovering] = useState(false);
+  const timePassed = new Date(new Date() - lastFM?.track?.date);
+  console.log(timePassed.getTime(), timePassed.getHours());
   return (
     <span
       className={
@@ -29,8 +31,16 @@ const NowPlayingWidget = ({ username, removeWidget }) => {
         />
       </span>
       <span className="row bg-white py-1 px-3">{lastFM?.track?.title || 'Now'}</span>
-      <span className="row bg-white py-1 px-3">{lastFM?.track?.artist || 'Playing'}</span>
-      {/* <span className="row bg-white py-1 px-3">{lastFM?.status}</span> */}
+      <span className="row flex w-96">
+        <span className="bg-white py-1 px-3">{lastFM?.track?.artist || 'Playing'}</span>
+        {lastFM.status === 'stopped' && timePassed.getTime() / 60 / 1000 > 10 && (
+          <span className="bg-white py-1 px-3 ml-2">
+            {timePassed.getHours() - 1
+              ? timePassed.getHours() + 'h'
+              : timePassed.getMinutes() + 'm'}
+          </span>
+        )}
+      </span>
     </span>
   );
 };
