@@ -4,7 +4,7 @@ import {
   MdMusicNote,
   MdPause,
   MdSkipNext,
-  // MdStop,
+  MdStop,
   MdLoop,
   MdClose,
   MdPriorityHigh,
@@ -21,7 +21,7 @@ const buttonStates = {
     icon: <MdSkipNext />,
   },
   stopped: {
-    icon: <MdClose />,
+    icon: <MdStop />,
   },
   closing: {
     icon: <MdClose />,
