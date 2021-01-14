@@ -36,13 +36,25 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState, init);
   const addUser = () => {
     dispatch({ type: 'ADD_ITEM', payload: { id: idCount, username: addUserRef.current.value } });
+    addUserRef.current.value = '';
     setIdCount(idCount + 1);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      addUser();
+    }
   };
   return (
     <div className={'App bg-green-200' + (state.isNavOpen ? '' : ' navClosed')}>
       <div className="p-2 bg-green-300">
         <span className="text-lg flex space-x-2">
-          <input className="bg-transparent bg-white py-1 px-3" type="text" ref={addUserRef} />
+          <input
+            placeholder="LastFM Username"
+            className="bg-transparent bg-white py-1 px-3"
+            type="text"
+            ref={addUserRef}
+            onKeyDown={handleKeyDown}
+          />
           <button type="button" className="bg-white p-2" onClick={addUser}>
             <MdAdd />
           </button>
