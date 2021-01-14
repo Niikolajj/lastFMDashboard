@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useLastFM } from 'use-last-fm';
 import useLastFM from './useLastFM/index';
 import PropTypes from 'prop-types';
@@ -8,7 +8,26 @@ import IconButton from './IconButton';
 const NowPlayingWidget = ({ username, removeWidget }) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
   const [isHovering, setIsHovering] = useState(false);
-  const timePassed = new Date(new Date() - lastFM?.track?.date);
+  const [minutesPassed, setMinutesPassed] = useState(0);
+  useEffect(() => {
+    const update = () => {
+      if (lastFM.status === 'stopped') {
+        const minutes = Math.floor((new Date() - lastFM?.track?.date) / 1000 / 60);
+        if (
+          (minutesPassed < minutes && minutes < 60) ||
+          Math.floor(minutesPassed / 60) < Math.floor(minutes / 60)
+        ) {
+          setMinutesPassed(minutes);
+        }
+      }
+    };
+    update();
+    const tick = setInterval(update, 1000);
+    return () => {
+      clearInterval(tick);
+    };
+  });
+
   return (
     <span
       className={
@@ -31,11 +50,9 @@ const NowPlayingWidget = ({ username, removeWidget }) => {
       <span className="row bg-white py-1 px-3">{lastFM?.track?.title || 'Now'}</span>
       <span className="row flex w-96">
         <span className="bg-white py-1 px-3">{lastFM?.track?.artist || 'Playing'}</span>
-        {lastFM.status === 'stopped' && timePassed.getTime() / 60 / 1000 > 10 && (
+        {lastFM.status === 'stopped' && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
-            {timePassed.getHours() - 1
-              ? timePassed.getHours() + 'h'
-              : timePassed.getMinutes() + 'm'}
+            {minutesPassed >= 60 ? Math.floor(minutesPassed / 60) + 'h' : minutesPassed + 'm'}
           </span>
         )}
       </span>
