@@ -8,6 +8,7 @@ import {
   MdLoop,
   MdClose,
   MdPriorityHigh,
+  MdLeakAdd,
 } from 'react-icons/md';
 
 const buttonStates = {
@@ -31,6 +32,12 @@ const buttonStates = {
   },
   connecting: {
     icon: <MdLoop />,
+  },
+  initializing: {
+    icon: <MdLeakAdd />,
+  },
+  error: {
+    icon: <MdPriorityHigh />,
   },
 };
 

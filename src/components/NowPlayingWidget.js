@@ -32,7 +32,11 @@ const NowPlayingWidget = ({ username, removeWidget }) => {
     <span
       className={
         'flex flex-col items-start space-y-2 pb-2 mr-2 ' +
-        (lastFM.status === 'stopped' || lastFM.status === 'initializing' ? 'text-gray-400' : '')
+        (lastFM.status === 'stopped' ||
+        lastFM.status === 'initializing' ||
+        lastFM.status === 'error'
+          ? 'text-gray-400'
+          : '')
       }
     >
       <span className="row flex w-96">
