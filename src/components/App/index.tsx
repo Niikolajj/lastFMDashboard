@@ -1,45 +1,55 @@
 import React, { useReducer, useRef, useState } from 'react';
 import './App.css';
-import NowPlayingWidget from './components/NowPlayingWidget';
+import NowPlayingWidget from '../NowPlayingWidget';
 import { MdExpandLess, MdExpandMore, MdAdd } from 'react-icons/md';
+import { AppState } from '../../types/AppState';
+import { AppAction } from '../../types/AppAction';
+import { User } from '../../types/User';
 
-const reducer = (state, action) => {
-  if (action.type === 'REMOVE_ITEM') {
-    const newUsers = state.users.filter((user) => user.id !== action.payload);
+
+
+const reducer = (state: AppState, action: AppAction): AppState => {
+  if (action.type === 'REMOVE_ITEM' && action.payload) {
+    const newUsers = state.users.filter((user) => user !== action.payload);
     localStorage.setItem('users', JSON.stringify(newUsers));
     return { ...state, users: newUsers };
   }
-  if (action.type === 'ADD_ITEM') {
-    const newUsers = [...state.users, action.payload];
-    localStorage.setItem('users', JSON.stringify(newUsers));
-    return { ...state, users: newUsers };
+  if (action.type === 'ADD_ITEM' && action.payload) {
+      const newUsers: User[] = [...state.users, action.payload];
+      localStorage.setItem('users', JSON.stringify(newUsers));
+      return { ...state, users: newUsers };
   }
   if (action.type === 'TOGGLE_NAV') {
     return { ...state, isNavOpen: !state.isNavOpen };
   }
   return state;
 };
-const defaultState = {
-  users: [],
+const Users: User[] = []
+
+const defaultState:AppState = {
+  users: Users,
   isNavOpen: true,
 };
 
-const init = (initialState) => {
+const init = (initialState: AppState) => {
   initialState.users = JSON.parse(localStorage.getItem('users') ?? '[]');
   initialState.isNavOpen = initialState.users.length === 0;
   return initialState;
 };
 
 const App = () => {
-  const addUserRef = useRef();
+  const addUserRef = useRef<HTMLInputElement>(null);
   const [idCount, setIdCount] = useState(defaultState.users.length + 1);
   const [state, dispatch] = useReducer(reducer, defaultState, init);
   const addUser = () => {
-    dispatch({ type: 'ADD_ITEM', payload: { id: idCount, username: addUserRef.current.value } });
-    addUserRef.current.value = '';
-    setIdCount(idCount + 1);
+    if(addUserRef.current)
+    {
+      dispatch({ type: 'ADD_ITEM', payload: { id: idCount, username: addUserRef.current.value } });
+      addUserRef.current.value = '';
+      setIdCount(idCount + 1);
+    }
   };
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       addUser();
     }
@@ -74,7 +84,7 @@ const App = () => {
           <NowPlayingWidget
             key={user.id}
             username={user.username}
-            removeWidget={() => dispatch({ type: 'REMOVE_ITEM', payload: user.id })}
+            removeWidget={() => dispatch({ type: 'REMOVE_ITEM', payload: user })}
           />
         ))}
       </div>

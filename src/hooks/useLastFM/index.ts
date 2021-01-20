@@ -1,12 +1,13 @@
 import { useEffect, useReducer } from 'react';
 import reducer from './reducer';
+import { PlayState } from '../../types/useLastFM/PlayState';
 
-const defaultState = {
+const defaultState: PlayState = {
   status: 'initializing',
-  track: null,
+  track: undefined,
 };
 
-const useLastFM = (username, token) => {
+const useLastFM = (username: string, token: string) => {
   const url = `//ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${token}&format=json&limit=2`;
   const [state, dispatch] = useReducer(reducer, defaultState);
   useEffect(() => {

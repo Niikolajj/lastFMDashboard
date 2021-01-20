@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 // import { useLastFM } from 'use-last-fm';
-import useLastFM from './useLastFM/index';
+import useLastFM from '../hooks/useLastFM/index';
 import PropTypes from 'prop-types';
 import './NowPlayingWidget.css';
 import IconButton from './IconButton';
 
-const NowPlayingWidget = ({ username, removeWidget }) => {
+const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
   const [isHovering, setIsHovering] = useState(false);
   const [minutesPassed, setMinutesPassed] = useState(0);
   useEffect(() => {
     const update = () => {
       if (lastFM.status === 'stopped') {
-        const minutes = Math.floor((new Date() - lastFM?.track?.date) / 1000 / 60);
+        const minutes = Math.floor(((new Date()).getTime() - (lastFM?.track?.date?.getTime() || 0)) / 1000 / 60);
         if (
           (minutesPassed < minutes && minutes < 60) ||
           Math.floor(minutesPassed / 60) < Math.floor(minutes / 60)
@@ -44,7 +44,6 @@ const NowPlayingWidget = ({ username, removeWidget }) => {
         <IconButton
           playingState={lastFM?.status}
           isHovering={isHovering}
-          type="button"
           className="bg-white ml-auto py-1 px-2"
           onClick={removeWidget}
           onMouseEnter={() => setIsHovering(true)}
@@ -74,3 +73,8 @@ NowPlayingWidget.defaultProps = {
 };
 
 export default NowPlayingWidget;
+
+type NPWidgetProps = {
+  username: string,
+  removeWidget: () => void
+}

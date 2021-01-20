@@ -1,4 +1,7 @@
-const reducer = (state, action) => {
+import { PlayState } from '../../types/useLastFM/PlayState';
+import { PlayAction } from '../../types/useLastFM/PlayAction';
+
+const reducer = (state: PlayState, action: PlayAction): PlayState => {
   switch (action.type) {
     case 'PLAY':
       if (state.status === 'initializing' || state.status === 'error') {
@@ -29,6 +32,8 @@ const reducer = (state, action) => {
       }
       return state;
     case 'CONNECTION_LOST':
+      return state;
+    default:
       return state;
   }
 };
