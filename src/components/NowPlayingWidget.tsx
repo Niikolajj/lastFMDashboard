@@ -38,6 +38,9 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           ? 'text-gray-400'
           : '')
       }
+      style = {{
+        order: minutesPassed,
+      }}
     >
       <span className="row flex w-96">
         <span className="bg-white py-1 px-3">{username}</span>
