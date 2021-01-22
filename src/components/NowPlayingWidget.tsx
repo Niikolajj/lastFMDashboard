@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { useLastFM } from 'use-last-fm';
 import useLastFM from '../hooks/useLastFM/index';
-import PropTypes from 'prop-types';
 import './NowPlayingWidget.css';
 import IconButton from './IconButton';
 
@@ -64,15 +63,6 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
       </span>
     </span>
   );
-};
-
-NowPlayingWidget.propTypes = {
-  removeWidget: PropTypes.func,
-  username: PropTypes.string.isRequired,
-};
-
-NowPlayingWidget.defaultProps = {
-  removeWidget: null,
 };
 
 export default NowPlayingWidget;
