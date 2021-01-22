@@ -21,7 +21,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
       }
     };
     update();
-    const tick = setInterval(update, 1000);
+    const tick = setInterval(update, 1000 * 30);
     return () => {
       clearInterval(tick);
     };
