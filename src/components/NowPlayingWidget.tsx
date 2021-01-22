@@ -11,7 +11,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   useEffect(() => {
     const update = () => {
       if (lastFM.status === 'stopped') {
-        const minutes = Math.floor(((new Date()).getTime() - (lastFM?.track?.date?.getTime() || 0)) / 1000 / 60);
+        const minutes = Math.floor((new Date().getTime() - (lastFM?.track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
         if (
           (minutesPassed < minutes && minutes < 60) ||
           Math.floor(minutesPassed / 60) < Math.floor(minutes / 60)
