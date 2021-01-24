@@ -4,6 +4,16 @@ import useLastFM from '../hooks/useLastFM/index';
 import './NowPlayingWidget.css';
 import IconButton from './IconButton';
 
+const getDisplayTime = (minutes: number):String => {
+  if(minutes >= 60 * 24) {
+    return Math.floor(minutes / 60 / 24) + 'd'
+  }
+  if(minutes >= 60) {
+    return Math.floor(minutes / 60) + 'h'
+  }
+  return minutes + "m"
+}
+
 const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
   const [isHovering, setIsHovering] = useState(false);
@@ -14,7 +24,8 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
         const minutes = Math.floor((new Date().getTime() - (lastFM?.recent_track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
         if (
           (minutesPassed < minutes && minutes < 60) ||
-          Math.floor(minutesPassed / 60) < Math.floor(minutes / 60)
+          Math.floor(minutesPassed / 60) < Math.floor(minutes / 60) ||
+          Math.floor(minutesPassed / 60 / 24) < Math.floor(minutes / 60 / 24)
         ) {
           setMinutesPassed(minutes);
         }
@@ -62,7 +73,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
         <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM?.current_track?.artist || lastFM?.recent_track?.artist || 'Playing'}</span>
         {lastFM.status === 'stopped' && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
-            {minutesPassed >= 60 ? Math.floor(minutesPassed / 60) + 'h' : minutesPassed + 'm'}
+            {getDisplayTime(minutesPassed)}
           </span>
         )}
       </span>
