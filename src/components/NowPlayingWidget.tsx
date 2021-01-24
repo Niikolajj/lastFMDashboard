@@ -35,7 +35,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   return (
     <span
       className={
-        'flex flex-col items-start space-y-2 pb-2 mr-2 ' +
+        'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap ' +
         (lastFM.status === 'stopped' ||
         lastFM.status === 'initializing' ||
         lastFM.status === 'error'
@@ -57,9 +57,9 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           onMouseLeave={() => setIsHovering(false)}
         />
       </span>
-      <span className="row bg-white py-1 px-3">{lastFM?.current_track?.title || lastFM?.recent_track?.title || 'Now'}</span>
+      <span className="row bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM?.current_track?.title || lastFM?.recent_track?.title || 'Now'}</span>
       <span className="row flex w-96">
-        <span className="bg-white py-1 px-3">{lastFM?.current_track?.artist || lastFM?.recent_track?.artist || 'Playing'}</span>
+        <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM?.current_track?.artist || lastFM?.recent_track?.artist || 'Playing'}</span>
         {lastFM.status === 'stopped' && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
             {minutesPassed >= 60 ? Math.floor(minutesPassed / 60) + 'h' : minutesPassed + 'm'}
