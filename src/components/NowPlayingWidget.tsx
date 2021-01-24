@@ -11,12 +11,17 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   useEffect(() => {
     const update = () => {
       if (lastFM.status === 'stopped') {
-        const minutes = Math.floor((new Date().getTime() - (lastFM?.track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
+        const minutes = Math.floor((new Date().getTime() - (lastFM?.recent_track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
         if (
           (minutesPassed < minutes && minutes < 60) ||
           Math.floor(minutesPassed / 60) < Math.floor(minutes / 60)
         ) {
           setMinutesPassed(minutes);
+        }
+      }
+      if(lastFM.status === 'playing') {
+        if(minutesPassed !== 0) {
+          setMinutesPassed(0);
         }
       }
     };
@@ -52,9 +57,9 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           onMouseLeave={() => setIsHovering(false)}
         />
       </span>
-      <span className="row bg-white py-1 px-3">{lastFM?.track?.title || 'Now'}</span>
+      <span className="row bg-white py-1 px-3">{lastFM?.current_track?.title || lastFM?.recent_track?.title || 'Now'}</span>
       <span className="row flex w-96">
-        <span className="bg-white py-1 px-3">{lastFM?.track?.artist || 'Playing'}</span>
+        <span className="bg-white py-1 px-3">{lastFM?.current_track?.artist || lastFM?.recent_track?.artist || 'Playing'}</span>
         {lastFM.status === 'stopped' && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
             {minutesPassed >= 60 ? Math.floor(minutesPassed / 60) + 'h' : minutesPassed + 'm'}

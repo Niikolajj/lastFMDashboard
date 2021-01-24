@@ -2,5 +2,8 @@ import { Song } from '../../types/Song';
 
 export type PlayAction = {
   type: string;
-  payload?: Song;
+  payload?: {
+    current_song?: Song;
+    recent_song: Song;
+  };
 };
