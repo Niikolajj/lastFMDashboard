@@ -2,18 +2,18 @@ import React, { useReducer, useRef, useState } from 'react';
 import './App.css';
 import NowPlayingWidget from '../NowPlayingWidget';
 import { MdExpandLess, MdExpandMore, MdAdd } from 'react-icons/md';
-import { AppState } from '../../types/AppState';
-import { User } from '../../types/User';
+import { State } from './types';
+import { User } from '../../hooks/useLastFM/types';
 import reducer from "./reducer";
 
 const Users: User[] = []
 
-const defaultState:AppState = {
+const defaultState:State = {
   users: Users,
   isNavOpen: true,
 };
 
-const init = (initialState: AppState) => {
+const init = (initialState: State) => {
   initialState.users = JSON.parse(localStorage.getItem('users') ?? '[]');
   initialState.isNavOpen = initialState.users.length === 0;
   return initialState;

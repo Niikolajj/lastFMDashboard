@@ -1,9 +1,8 @@
 import { useEffect, useReducer } from 'react';
 import reducer from './reducer';
-import { PlayState } from '../../types/useLastFM/PlayState';
-import { Song } from '../../types/Song';
+import { State, Song } from './types';
 
-const defaultState: PlayState = {
+const defaultState: State = {
   status: 'initializing',
   current_track: undefined,
   recent_track: undefined,

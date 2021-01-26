@@ -1,7 +1,6 @@
-import { PlayState } from '../../types/useLastFM/PlayState';
-import { PlayAction } from '../../types/useLastFM/PlayAction';
+import { Action, State } from './types';
 
-const reducer = (state: PlayState, action: PlayAction): PlayState => {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'PLAY':
       if (state.status === 'initializing' || state.status === 'error') {

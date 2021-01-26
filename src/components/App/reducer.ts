@@ -1,8 +1,7 @@
-import { AppState } from '../../types/AppState';
-import { AppAction } from '../../types/AppAction';
-import { User } from '../../types/User';
+import { State, Action } from './types';
+import { User } from '../../hooks/useLastFM/types';
 
-const reducer = (state: AppState, action: AppAction): AppState => {
+const reducer = (state: State, action: Action): State => {
   if (action.type === 'REMOVE_ITEM' && action.payload) {
     const newUsers = state.users.filter((user) => user !== action.payload);
     localStorage.setItem('users', JSON.stringify(newUsers));
