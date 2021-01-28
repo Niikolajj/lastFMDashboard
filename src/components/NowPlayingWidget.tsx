@@ -55,7 +55,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           : '')
       }
       style = {{
-        order: minutesPassed,
+        order: (lastFM.status === StateStatus.Initializing || lastFM.status === StateStatus.Error)? 9999 : minutesPassed,
       }}
     >
       <span className="row flex w-full">
