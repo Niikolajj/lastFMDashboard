@@ -47,7 +47,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   return (
     <span
       className={
-        'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap ' +
+        'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap w-96 ' +
         (lastFM.status === StateStatus.Stopped ||
         lastFM.status === StateStatus.Initializing ||
         lastFM.status === StateStatus.Error
@@ -58,7 +58,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
         order: minutesPassed,
       }}
     >
-      <span className="row flex w-96">
+      <span className="row flex w-full">
         <span className="bg-white py-1 px-3">{username}</span>
         <IconButton
           playingState={lastFM.status}
@@ -69,9 +69,9 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           onMouseLeave={() => setIsHovering(false)}
         />
       </span>
-      <span className="row bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM.current_track?.title || lastFM.recent_track?.title || 'Now'}</span>
+      <span className="row bg-white py-1 px-3 overflow-hidden overflow-ellipsis max-w-full">{lastFM.current_track?.title || lastFM.recent_track?.title || 'Now'}</span>
       <span className="row flex w-96">
-        <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM.current_track?.artist || lastFM.recent_track?.artist || 'Playing'}</span>
+        <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis max-w-full">{lastFM.current_track?.artist || lastFM.recent_track?.artist || 'Playing'}</span>
         {lastFM.status === StateStatus.Stopped && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
             {getDisplayTime(minutesPassed)}
