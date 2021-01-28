@@ -5,40 +5,36 @@ import {
   MdPause,
   MdSkipNext,
   MdStop,
-  MdLoop,
   MdClose,
   MdPriorityHigh,
   MdLeakAdd,
 } from 'react-icons/md';
+import { StateStatus } from '../hooks/useLastFM/types';
 
 const IconButton = ({ playingState, isHovering, ...props }: IconButtonProps) => {
   return <button {...props}>{updateButton(playingState, isHovering)}</button>;
 };
 
-const updateButton = (playingState: string, isHovering: boolean) => {
+const updateButton = (playingState: StateStatus, isHovering: boolean) => {
   if (isHovering) {
     return <MdClose />;
   }
   return getIcon(playingState);
 };
 
-const getIcon = (state: string) => {
+const getIcon = (state: StateStatus) => {
   switch(state) {
-    case 'playing': 
+    case StateStatus.Playing: 
       return <MdMusicNote />
-    case 'paused': 
+    case StateStatus.Pausing: 
       return <MdPause />
-    case 'skipping': 
+    case StateStatus.Skipping: 
       return <MdSkipNext />
-    case 'stopped': 
+    case StateStatus.Stopped: 
       return <MdStop />
-    case 'undefined': 
-      return <MdPriorityHigh />
-    case 'connecting': 
-      return <MdLoop />
-    case 'initializing': 
+    case StateStatus.Initializing: 
       return <MdLeakAdd />
-    case 'error': 
+    case StateStatus.Error: 
       return <MdPriorityHigh />
     default:
       return <MdPriorityHigh />
@@ -46,12 +42,12 @@ const getIcon = (state: string) => {
 }
 
 IconButton.propTypes = {
-  playingState: PropTypes.string,
+  playingState: StateStatus,
   isHovering: PropTypes.bool,
 };
 
 interface IconButtonProps extends React.HTMLAttributes<HTMLButtonElement>  {
-  playingState: string,
+  playingState: StateStatus,
   isHovering: boolean
 }
 

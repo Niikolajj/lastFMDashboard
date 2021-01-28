@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { useLastFM } from 'use-last-fm';
+import { StateStatus } from '../hooks/useLastFM/types'
 import useLastFM from '../hooks/useLastFM/index';
 import './NowPlayingWidget.css';
 import IconButton from './IconButton';
@@ -20,8 +21,8 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
   const [minutesPassed, setMinutesPassed] = useState(0);
   useEffect(() => {
     const update = () => {
-      if (lastFM.status === 'stopped') {
-        const minutes = Math.floor((new Date().getTime() - (lastFM?.recent_track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
+      if (lastFM.status === StateStatus.Stopped) {
+        const minutes = Math.floor((new Date().getTime() - (lastFM.recent_track?.date?.getTime() || new Date().getTime())) / 1000 / 60);
         if (
           (minutesPassed < minutes && minutes < 60) ||
           Math.floor(minutesPassed / 60) < Math.floor(minutes / 60) ||
@@ -30,7 +31,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           setMinutesPassed(minutes);
         }
       }
-      if(lastFM.status === 'playing') {
+      if(lastFM.status === StateStatus.Playing) {
         if(minutesPassed !== 0) {
           setMinutesPassed(0);
         }
@@ -47,9 +48,9 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
     <span
       className={
         'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap ' +
-        (lastFM.status === 'stopped' ||
-        lastFM.status === 'initializing' ||
-        lastFM.status === 'error'
+        (lastFM.status === StateStatus.Stopped ||
+        lastFM.status === StateStatus.Initializing ||
+        lastFM.status === StateStatus.Error
           ? 'text-gray-400'
           : '')
       }
@@ -60,7 +61,7 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
       <span className="row flex w-96">
         <span className="bg-white py-1 px-3">{username}</span>
         <IconButton
-          playingState={lastFM?.status}
+          playingState={lastFM.status}
           isHovering={isHovering}
           className="bg-white ml-auto py-1 px-2"
           onClick={removeWidget}
@@ -68,10 +69,10 @@ const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
           onMouseLeave={() => setIsHovering(false)}
         />
       </span>
-      <span className="row bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM?.current_track?.title || lastFM?.recent_track?.title || 'Now'}</span>
+      <span className="row bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM.current_track?.title || lastFM.recent_track?.title || 'Now'}</span>
       <span className="row flex w-96">
-        <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM?.current_track?.artist || lastFM?.recent_track?.artist || 'Playing'}</span>
-        {lastFM.status === 'stopped' && minutesPassed > 5 && (
+        <span className="bg-white py-1 px-3 overflow-hidden overflow-ellipsis">{lastFM.current_track?.artist || lastFM.recent_track?.artist || 'Playing'}</span>
+        {lastFM.status === StateStatus.Stopped && minutesPassed > 5 && (
           <span className="bg-white py-1 px-3 ml-2">
             {getDisplayTime(minutesPassed)}
           </span>

@@ -2,7 +2,7 @@ import React, { useReducer, useRef, useState } from 'react';
 import './App.css';
 import NowPlayingWidget from '../NowPlayingWidget';
 import { MdExpandLess, MdExpandMore, MdAdd } from 'react-icons/md';
-import { State } from './types';
+import { ActionType, State } from './types';
 import { User } from '../../hooks/useLastFM/types';
 import reducer from "./reducer";
 
@@ -26,7 +26,7 @@ const App = () => {
   const addUser = () => {
     if(addUserRef.current)
     {
-      dispatch({ type: 'ADD_ITEM', payload: { id: idCount, username: addUserRef.current.value } });
+      dispatch({ type: ActionType.ADD_ITEM, payload: { id: idCount, username: addUserRef.current.value } });
       addUserRef.current.value = '';
       setIdCount(idCount + 1);
     }
@@ -54,7 +54,7 @@ const App = () => {
             type="button"
             className="bg-green-400 p-3 absolute top-14 right-1"
             onClick={() => {
-              dispatch({ type: 'TOGGLE_NAV' });
+              dispatch({ type: ActionType.TOGGLE_NAV });
             }}
           >
             {state.isNavOpen ? <MdExpandLess /> : <MdExpandMore />}
@@ -66,7 +66,7 @@ const App = () => {
           <NowPlayingWidget
             key={user.id}
             username={user.username}
-            removeWidget={() => dispatch({ type: 'REMOVE_ITEM', payload: user })}
+            removeWidget={() => dispatch({ type: ActionType.REMOVE_ITEM, payload: user })}
           />
         ))}
       </div>

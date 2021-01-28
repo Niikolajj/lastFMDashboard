@@ -1,61 +1,80 @@
-import { Action, State } from './types';
+import { Action, State, ActionType, StateStatus } from './types';
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'PLAY':
-      if (state.status === 'initializing' || state.status === 'error') {
-        return {
-          ...state,
-          status: 'playing',
-          current_track: action.payload?.current_song,
-          recent_track: action.payload?.recent_song,
-        };
-      } else if (
-        JSON.stringify(action.payload?.current_song) !== JSON.stringify(state.current_track)
-      ) {
-        return {
-          ...state,
-          status: 'skipping',
-          current_track: action.payload?.current_song,
-          recent_track: action.payload?.recent_song,
-        };
-      } else if (state.status === 'skipping' || state.status === 'playing') {
-        return state;
-      } else {
-        return { ...state, status: 'playing' };
+    case ActionType.PLAY:
+      switch (state.status) {
+        case StateStatus.Initializing:
+        case StateStatus.Error:
+        case StateStatus.Stopped:
+          return {
+            ...state,
+            status: StateStatus.Playing,
+            current_track: action.payload.current_song,
+            recent_track: action.payload.recent_song,
+          };
+        case StateStatus.Skipping:
+        case StateStatus.Playing:
+          if (JSON.stringify(action.payload.current_song) !== JSON.stringify(state.current_track)) {
+            return {
+              ...state,
+              status: StateStatus.Skipping,
+              current_track: action.payload.current_song,
+              recent_track: action.payload.recent_song,
+            };
+          }
+          return state;
+        case StateStatus.Pausing:
+          return { ...state, status: StateStatus.Playing };
       }
-    case 'STOP':
-      if (state.status === 'initializing' || state.status === 'error') {
-        return {
-          ...state,
-          status: 'stopped',
-          current_track: action.payload?.current_song,
-          recent_track: action.payload?.recent_song,
-        };
-      } else if (state.status === 'playing' || state.status === 'skipping') {
-        return { ...state, status: 'paused' };
-      } else if (state.status === 'paused' || state.status === 'stopped') {
-        return state;
+      break;
+    case ActionType.STOP:
+      switch (state.status) {
+        case StateStatus.Initializing:
+        case StateStatus.Error:
+          return {
+            ...state,
+            status: StateStatus.Stopped,
+            recent_track: action.payload?.recent_song,
+          };
+        case StateStatus.Playing:
+        case StateStatus.Skipping:
+          return { ...state, status: StateStatus.Pausing };
+        case StateStatus.Pausing:
+        case StateStatus.Stopped:
+          return state;
       }
-      return { ...state, status: 'stopped' };
-    case 'PAUSING_ENDED':
-      return {
-        ...state,
-        status: 'stopped',
-        current_track: undefined,
-      };
-    case 'SKIPPING_ENDED':
-      return { ...state, status: 'playing' };
-    case 'ERROR_NO_SONGS':
-      if (state.status !== 'error') {
-        return {
-          ...state,
-          status: 'error',
-          recent_track: { title: 'No songs', artist: '/Error/' },
-        };
+      break;
+    case ActionType.PAUSING_ENDED:
+      switch (state.status) {
+        case StateStatus.Pausing:
+          return {
+            ...state,
+            status: StateStatus.Stopped,
+            current_track: undefined,
+          };
+        default:
+          return state;
       }
-      return state;
-    case 'CONNECTION_LOST':
+    case ActionType.SKIPPING_ENDED:
+      switch (state.status) {
+        case StateStatus.Skipping:
+          return { ...state, status: StateStatus.Playing };
+        default:
+          return state;
+      }
+    case ActionType.ERROR_NO_SONGS:
+      switch (state.status) {
+        case StateStatus.Error:
+          return {
+            status: StateStatus.Error,
+            current_track: undefined,
+            recent_track: undefined,
+          };
+        default:
+          return state;
+      }
+    case ActionType.CONNECTION_LOST:
       return state;
     default:
       return state;
