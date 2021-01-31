@@ -23,32 +23,32 @@ const updateButton = (playingState: StateStatus, isHovering: boolean) => {
 };
 
 const getIcon = (state: StateStatus) => {
-  switch(state) {
-    case StateStatus.Playing: 
-      return <MdMusicNote />
-    case StateStatus.Pausing: 
-      return <MdPause />
-    case StateStatus.Skipping: 
-      return <MdSkipNext />
-    case StateStatus.Stopped: 
-      return <MdStop />
-    case StateStatus.Initializing: 
-      return <MdLeakAdd />
-    case StateStatus.Error: 
-      return <MdPriorityHigh />
+  switch (state) {
+    case StateStatus.Playing:
+      return <MdMusicNote />;
+    case StateStatus.Pausing:
+      return <MdPause />;
+    case StateStatus.Skipping:
+      return <MdSkipNext />;
+    case StateStatus.Stopped:
+      return <MdStop />;
+    case StateStatus.Initializing:
+      return <MdLeakAdd />;
+    case StateStatus.Error:
+      return <MdPriorityHigh />;
     default:
-      return <MdPriorityHigh />
+      return <MdPriorityHigh />;
   }
-}
+};
 
 IconButton.propTypes = {
   playingState: StateStatus,
   isHovering: PropTypes.bool,
 };
 
-interface IconButtonProps extends React.HTMLAttributes<HTMLButtonElement>  {
-  playingState: StateStatus,
-  isHovering: boolean
+interface IconButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  playingState: StateStatus;
+  isHovering: boolean;
 }
 
 export default IconButton;

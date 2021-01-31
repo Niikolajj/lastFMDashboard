@@ -4,11 +4,11 @@ import NowPlayingWidget from '../NowPlayingWidget';
 import { MdExpandLess, MdExpandMore, MdAdd } from 'react-icons/md';
 import { ActionType, State } from './types';
 import { User } from '../../hooks/useLastFM/types';
-import reducer from "./reducer";
+import reducer from './reducer';
 
-const Users: User[] = []
+const Users: User[] = [];
 
-const defaultState:State = {
+const defaultState: State = {
   users: Users,
   isNavOpen: true,
 };
@@ -24,9 +24,11 @@ const App = () => {
   const [idCount, setIdCount] = useState(defaultState.users.length + 1);
   const [state, dispatch] = useReducer(reducer, defaultState, init);
   const addUser = () => {
-    if(addUserRef.current)
-    {
-      dispatch({ type: ActionType.ADD_ITEM, payload: { id: idCount, username: addUserRef.current.value } });
+    if (addUserRef.current) {
+      dispatch({
+        type: ActionType.ADD_ITEM,
+        payload: { id: idCount, username: addUserRef.current.value },
+      });
       addUserRef.current.value = '';
       setIdCount(idCount + 1);
     }

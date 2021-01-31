@@ -19,5 +19,5 @@ export type Action = NavAction | ItemAction;
 
 export type State = {
   users: Array<User>;
-  isNavOpen: Boolean;
+  isNavOpen: boolean;
 };

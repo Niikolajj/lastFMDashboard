@@ -13,11 +13,11 @@ const useLastFM = (username: string, token: string) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
   useEffect(() => {
     if (state.status === StateStatus.Pausing) {
-      let delay = setTimeout(() => dispatch({ type: ActionType.PAUSING_ENDED }), 10 * 1000);
+      const delay = setTimeout(() => dispatch({ type: ActionType.PAUSING_ENDED }), 10 * 1000);
       return () => clearTimeout(delay);
     }
     if (state.status === StateStatus.Skipping) {
-      let delay = setTimeout(() => dispatch({ type: ActionType.SKIPPING_ENDED }), 1000);
+      const delay = setTimeout(() => dispatch({ type: ActionType.SKIPPING_ENDED }), 1000);
       return () => clearTimeout(delay);
     }
   }, [state.status]);
