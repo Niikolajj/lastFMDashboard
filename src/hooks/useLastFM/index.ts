@@ -8,7 +8,7 @@ const defaultState: State = {
   recent_track: undefined,
 };
 
-const useLastFM = (username: string, token: string) => {
+const useLastFM = (username: string, token: string): State => {
   const url = `//ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${token}&format=json&limit=2`;
   const [state, dispatch] = useReducer(reducer, defaultState);
   useEffect(() => {

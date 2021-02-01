@@ -15,7 +15,7 @@ const getDisplayTime = (minutes: number): string => {
   return minutes + 'm';
 };
 
-const NowPlayingWidget = ({ username, removeWidget }: NPWidgetProps) => {
+const NowPlayingWidget: React.FC<NPWidgetProps> = ({ username, removeWidget }: NPWidgetProps) => {
   const lastFM = useLastFM(username, '319574139c3d65012c05bc9d3e466609');
   const [isHovering, setIsHovering] = useState(false);
   const [minutesPassed, setMinutesPassed] = useState(0);

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   MdMusicNote,
@@ -11,7 +10,11 @@ import {
 } from 'react-icons/md';
 import { StateStatus } from '../hooks/useLastFM/types';
 
-const IconButton = ({ playingState, isHovering, ...props }: IconButtonProps) => {
+const IconButton: React.FC<IconButtonProps> = ({
+  playingState,
+  isHovering,
+  ...props
+}: IconButtonProps) => {
   return <button {...props}>{updateButton(playingState, isHovering)}</button>;
 };
 
@@ -39,11 +42,6 @@ const getIcon = (state: StateStatus) => {
     default:
       return <MdPriorityHigh />;
   }
-};
-
-IconButton.propTypes = {
-  playingState: StateStatus,
-  isHovering: PropTypes.bool,
 };
 
 interface IconButtonProps extends React.HTMLAttributes<HTMLButtonElement> {

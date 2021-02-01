@@ -16,6 +16,8 @@ const reducer = (state: State, action: Action): State => {
     }
     case ActionType.TOGGLE_NAV:
       return { ...state, isNavOpen: !state.isNavOpen };
+    case ActionType.CHANGE_COLOUR:
+      return { ...state, themeColour: action.payload };
   }
 };
 
