@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
   };
   return (
     <div className={'p-2 bg-' + ThemeColours[state.themeColour] + '-300 content-center'}>
-      <span className="text-lg flex space-x-2">
+      <span className="text-lg flex">
         <input
           placeholder="LastFM Username"
           className="bg-transparent bg-white py-1 px-3"

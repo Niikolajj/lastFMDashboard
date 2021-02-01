@@ -9,7 +9,7 @@ const Settings: React.FC = () => {
     return <div>Error</div>;
   }
   return (
-    <div className="flex self-end">
+    <div className="flex ml-auto">
       {Object.keys(ThemeColours)
         .filter((key) => !isNaN(+key))
         .map((colour) => (
