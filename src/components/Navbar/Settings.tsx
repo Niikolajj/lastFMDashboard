@@ -2,6 +2,7 @@ import React from 'react';
 import { AppContext } from '../App';
 import { ThemeColours, ActionType } from '../App/types';
 import { useContext } from 'react';
+import { darkColours } from '../../utils/tailwindClassesHelper';
 
 const Settings: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -21,7 +22,7 @@ const Settings: React.FC = () => {
                 payload: (colour as unknown) as ThemeColours,
               });
             }}
-            className={'px-4 bg-' + ThemeColours[+colour] + '-400 ml-2'}
+            className={'px-4 ' + darkColours[ThemeColours[+colour]] + ' ml-2'}
           ></div>
         ))}
     </div>

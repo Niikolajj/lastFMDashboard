@@ -3,6 +3,7 @@ import { MdAdd, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { ActionType, ThemeColours } from '../App/types';
 import { AppContext } from '../App';
 import Settings from './Settings';
+import { mediumColours } from '../../utils/tailwindClassesHelper';
 
 const Navbar: React.FC = () => {
   const addUserRef = useRef<HTMLInputElement>(null);
@@ -27,7 +28,7 @@ const Navbar: React.FC = () => {
     }
   };
   return (
-    <div className={'p-2 bg-' + ThemeColours[state.themeColour] + '-300 content-center'}>
+    <div className={'p-2 ' + mediumColours[ThemeColours[state.themeColour]] + ' content-center'}>
       <span className="text-lg flex">
         <input
           placeholder="LastFM Username"
@@ -42,7 +43,9 @@ const Navbar: React.FC = () => {
         <Settings />
         <button
           type="button"
-          className={'bg-' + ThemeColours[state.themeColour] + '-300 p-3 absolute top-14 right-1'}
+          className={
+            mediumColours[ThemeColours[state.themeColour]] + ' p-3 absolute top-14 right-1'
+          }
           onClick={() => {
             dispatch({ type: ActionType.TOGGLE_NAV });
           }}

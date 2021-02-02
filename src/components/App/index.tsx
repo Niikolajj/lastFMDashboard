@@ -5,6 +5,7 @@ import { Action, ActionType, State, ThemeColours } from './types';
 import { User } from '../../hooks/useLastFM/types';
 import reducer from './reducer';
 import Navbar from '../Navbar';
+import { lightColours } from '../../utils/tailwindClassesHelper';
 
 const Users: User[] = [];
 
@@ -31,7 +32,9 @@ const App: React.FC = () => {
   return (
     <div
       className={
-        'App bg-' + ThemeColours[state.themeColour] + '-200' + (state.isNavOpen ? '' : ' navClosed')
+        'App ' +
+        lightColours[ThemeColours[state.themeColour]] +
+        (state.isNavOpen ? '' : ' navClosed')
       }
     >
       <AppContext.Provider value={{ state, dispatch }}>
