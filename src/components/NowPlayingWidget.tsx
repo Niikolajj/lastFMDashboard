@@ -51,7 +51,7 @@ const NowPlayingWidget: React.FC<NPWidgetProps> = ({ username, removeWidget }: N
   return (
     <span
       className={
-        'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap w-96 ' +
+        'flex flex-col items-start space-y-2 pb-2 mr-2 whitespace-nowrap w-full lg:w-1/2 xl:w-1/3 2xl:w-1/4 ' +
         (lastFM.status === StateStatus.Stopped ||
         lastFM.status === StateStatus.Initializing ||
         lastFM.status === StateStatus.Error

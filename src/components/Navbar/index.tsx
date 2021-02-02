@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
       <span className="text-lg flex">
         <input
           placeholder="LastFM Username"
-          className="bg-transparent bg-white py-1 px-3"
+          className="bg-transparent bg-white py-1 px-3 w-full sm:w-auto"
           type="text"
           ref={addUserRef}
           onKeyDown={handleKeyDown}
